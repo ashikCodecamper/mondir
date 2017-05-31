@@ -4,18 +4,17 @@
 <link href="{{asset('css/jquery-ui.min.css')}}" rel="stylesheet">
 @endsection
 @section('content')
-<form action="" role="form">
+<form action="{{route('addsalebook')}}" role="form" method="POST">
     <div class="col-lg-6">
         <div class="row">
             <div class="col-lg-8">
                 <div class="form-group">
                     <label for="">Name Of Temple</label>
-                    <select name="" id="" class="form-control">
-                        <option value="">1</option>
-                        <option value="">2</option>
-                        <option value="">3</option>
-                        <option value="">4</option>
-                        <option value="">5</option>
+                    <select name="customer_id" id="" class="form-control">
+                        <option value="">please select from dropdown</option>
+                        @foreach($customers as $customer)
+                        <option value="{{$customer->id}}">{{$customer->temple_name}}</option>
+                        @endforeach
                     </select>
                 </div>
             </div>
@@ -29,7 +28,7 @@
         </div>
         <div class="form-group">
             <label for="">Name Of Book</label>
-            <select name="" id="" class="form-control">
+            <select name="book_id" id="" class="form-control">
                 <option value="">1</option>
                 <option value="">2</option>
                 <option value="">3</option>

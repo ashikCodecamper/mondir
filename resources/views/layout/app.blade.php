@@ -101,7 +101,7 @@
                                     <a href="#">Sales<span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level">
                                         <li>
-                                            <a href="#">Sales Of Book</a>
+                                            <a href="{{route('salebook')}}">Sales Of Book</a>
                                         </li>
                                         <li>
                                             <a href="#">Sales Of Para</a>

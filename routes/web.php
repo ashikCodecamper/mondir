@@ -35,6 +35,8 @@ Route::group(['middleware' => 'auth','prefix' => 'stock'], function ()
     Route::get('purchasepara','ParaController@purchasepara')->name('purchasepara');
     Route::post('addpurchasepara','ParaController@addpurchasepara')->name('addpurchasepara');
    // sales book controller
+   Route::get('salebook','Salesbookcontroller@salebook')->name('salebook');
+    Route::post('addsalebook','Salesbookcontroller@addsalebook')->name('addsalebook');
 
 });
 
