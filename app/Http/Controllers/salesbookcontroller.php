@@ -17,26 +17,21 @@ class salesbookcontroller extends Controller
     }
 
      public function addsalebook(Request $request){
-        $salebook = new Salebook;
+        $addbook = new Salebook;
         //mix value with sales_price|Id
-            $arr =$request->book_id;
-            $recvId =[];
-            foreach($arr as $ar) {
-            $exp=explode('|',$ar);
-            array_push($recvId,$exp[1]);
-            };
+        $bookmix =$request->book_id; 
+        $bookId =explode("|", $bookmix[0]);
+        $bookid = (int) $bookId[1];
         // form data collection
-         $salebook->customer_id = $request->input('customer_id');
-        $salebook->book_id =$request->input('book_id[0]');
-         $salebook->pcs = $request->input('pcs[0]');
-         $salebook->total_amount = $request->total_amount;
-         $salebook->due_amount = $request->total_amount - $request->rcv_amount;
-         $salebook->rcv_amount = $request->rcv_amount;
-         $salebook->cheque_num = $request->cheque_num;
-         $salebook->inv_num = $request->inv_num;
+        $addbook->customer_id = $request->customer_id;
+        $addbook->book_id = $bookid ;
+        $addbook->pcs = $request->pcs;
+        $addbook->total_amount = $request->total_amount;
+        $addbook->due_amount = $request->total_amount - $request->rcv_amount;
+        $addbook->rcv_amount = $request->rcv_amount;
+        $addbook->cheque_num = $request->cheque_num;
+        $addbook->inv_num = $request->inv_num;
 
-       $salebook->save();
-        
-        return "created succesfully";
+        return ['book_id'=>$bookmix,'pcs'=>$addbook->pcs];
     }
 }

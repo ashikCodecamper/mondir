@@ -40,9 +40,7 @@
                 <option value="0" selected>Please select...</option>
                  @foreach($books as $book)
                         <option value="{{$book->sales_price}}|{{$book->id}}">{{$book->book_name}}</option>
-                        {{--  tiale vai ekhon ki sob thik ase? hmm
-                            Guud vai  ar ekta mojar jinis dekhai? ki
-                         --}}
+                        
                 @endforeach
             </select>
         </div>
@@ -106,8 +104,8 @@
                     <input name="cheque_num" type="number" class="form-control" placeholder="Sale Price Per Unit">
                 </div>
         </div>
-        
-        <button type="submit" class="btn btn-block btn-primary">Submit</button>
+        <p  id="createInvoice"class="btn  btn-success">Create Invoice</p>
+        <button type="submit" class="btn  btn-primary">Submit</button>
     </div>
 </form>
 
@@ -115,6 +113,8 @@
 @endsection
 @section('javascript')
 <script src="{{asset('js/jquery-ui.min.js')}}"></script>
+<script src="{{asset('js/pdfmake.min.js')}}"></script>
+<script src="{{asset('js/vfs_fonts.js')}}"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
  $( function() {
@@ -141,39 +141,10 @@ var sale = new Vue({
     methods:{
         addline: function() {
       this.products.push({ price: 0, pcs: 1});
-    },
+     },
+
     remove: function() {
       this.products.pop();
-    },
-    create: function() {
-      this.isProcessing = true;
-      this.$http.post('/stock/addsalebook', this.products)
-        .then(function(response) {
-          if(response.data.created) {
-            window.location = '/stock/addbook' + response.data.id;
-          } else {
-            this.isProcessing = false;
-          }
-        })
-        .catch(function(response) {
-          this.isProcessing = false;
-          Vue.set(this.$data, 'errors', response.data);
-        })
-    },
-    update: function() {
-      this.isProcessing = true;
-      this.$http.put('/invoices/' + this.form.id, this.form)
-        .then(function(response) {
-          if(response.data.updated) {
-            window.location = '/invoices/' + response.data.id;
-          } else {
-            this.isProcessing = false;
-          }
-        })
-        .catch(function(response) {
-          this.isProcessing = false;
-          Vue.set(this.$data, 'errors', response.data);
-        })
     }
     },
    computed: {
@@ -188,6 +159,94 @@ var sale = new Vue({
   }
 });
 
+//pdf invoice
+var dd = {
+	content: [
+		{text: 'Sri Sri Radha Govinda Jew Mandir', style: 'header'},
+		{text: 'Wari,Dhaka', style: 'subheader'},
+		{text:'Invoice/Bill',fontSize:16,margin:[210,0]},
+		'\n \n',
+		{
+			columns: [
+				{
+				    width: 130,
+					fontSize: 19,
+					text:'Temple Name:'
+				},
+				{
+					width: 280,
+					fontSize:18,
+					text: 'Temple !'
+				},
+				{
+					width: 'auto',
+					fontSize:18,
+					text: 'Date:'
+				},
+				{
+					width: 'auto',
+					fontSize:18,
+					text: '31/121995'
+				},
+			]
+		},
+		'\n \n',
+
+		{
+			style: 'tableExample',
+			table: {
+			    widths: [ 30, 'auto', 50, 150 ],
+				body: [
+					['SL', 'Particulars', 'Rate','Total Amount'],
+					['1', 'Another one here  hjkhkjh', 3,200],
+					['1', 'Another one here  hjkhkjh', 3,200],
+					['1', 'Another one here  hjkhkjh', 3,200],
+                   
+					['','','',' '],
+					['', 'Subtotal', '', 200],
+					['', 'Discount', '', 20],
+					['', 'Total', '', 180],
+				]
+			}
+		},
+	],
+	styles: {
+		header: {
+			fontSize: 30,
+			bold: true,
+			margin: [30, 0]
+		},
+		anotherStyle: {
+       italic: true,
+       alignment: 'right'
+     },
+		subheader: {
+			fontSize: 20,
+			bold: true,
+			margin: [200,0]
+		},
+		tableExample: {
+			fontSize:18,
+		},
+		tableHeader: {
+			bold: true,
+			fontSize: 20,
+			color: 'black'
+		},
+		heading : {
+		    fontSize: 16,
+		}
+	},
+	defaultStyle: {
+		alignment: 'justify'
+	}
+	
+};
+
+var createInvoice = document.getElementById('createInvoice');
+createInvoice.addEventListener('click', function(){
+    pdfMake.createPdf(dd).download('optionalName.pdf');
+});
 
   </script>
 @endsection
