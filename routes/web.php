@@ -11,15 +11,16 @@ use App\Task;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/invoice', function () {
+    return view('stock.invoice');
 });
 Route::get('/salesbook', function () {
     return view('stock.salebooks');
 });
 
 Auth::routes();
-
+//test for axios
+Route::get('/bookjson', 'salesbookcontroller@book')->name('bookjson');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['middleware' => 'auth','prefix' => 'stock'], function ()
 {

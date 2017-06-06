@@ -260,6 +260,7 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="{{asset('js/app.js')}}"></script>
+    <script src="https://unpkg.com/vue@2.3.3"></script>
     @yield('javascript')
 
 </body>

@@ -1,0 +1,8 @@
+@media print {
+    .hidden-print {
+        display: none;
+    }
+    .p-mar {
+        margin-left: -10 px;
+    }
+}
