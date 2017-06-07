@@ -245,6 +245,12 @@ var dd = {
 
 var createInvoice = document.getElementById('createInvoice');
 createInvoice.addEventListener('click', function(){
+    sale.products.forEach(function(item) {
+        var pushArr = ['', '', item['pcs'], item['price']];
+        dd.content[6].table.body.push(pushArr);
+        //console.log(item['pcs'], item['price']);
+    });
+    //console.log(sale.products);
     pdfMake.createPdf(dd).download('optionalName.pdf');
 });
 
